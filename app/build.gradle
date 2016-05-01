@@ -31,4 +31,5 @@ dependencies {
     compile 'com.auth0.android:lock-googleplus:2.0.+'
     compile 'com.android.volley:volley:1.0.0'
     compile 'me.philio:pinentryview:1.0.6'
+    compile 'org.greenrobot:eventbus:3.0.0'
 }

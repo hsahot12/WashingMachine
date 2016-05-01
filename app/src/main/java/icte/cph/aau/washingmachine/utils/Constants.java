@@ -12,4 +12,10 @@ public class Constants {
     public static final String TAG_SUCCESS = "success";
     public static final String TAG_MESSAGE = "message";
 
+    //Fragment tags
+    public static final String FRAGMENT_TAG_WASHINGMACHINE_ID = "FRAGMENT_TAG_WASHINGMACHINE_ID";
+
+    //Bundles
+    public static final String BUNDLE_PIN = "BUNDLE_PIN";
+
 }

@@ -5,6 +5,7 @@
     android:layout_height="fill_parent">
 
     <LinearLayout
+        android:id="@+id/fragment_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
@@ -15,14 +16,26 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         tools:context=".MainActivity">
 
+        <TextView
+            android:id="@+id/setup_wm_pin_washing_machine_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Washing machine" />
+
         <me.philio.pinentry.PinEntryView
-            android:id="@+id/pin_entry_simple"
+            android:id="@+id/setup_wm_pin_pin_entry"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             app:accentType="all"
             app:digitBackground="@android:color/white"
             app:digitElevation="10dp" />
+
+        <Button
+            android:id="@+id/setup_wm_pin_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/com_auth0_ok_btn_text" />
 
     </LinearLayout>
 </ScrollView>

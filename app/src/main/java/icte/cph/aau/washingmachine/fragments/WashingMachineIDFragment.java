@@ -1,6 +1,7 @@
 package icte.cph.aau.washingmachine.fragments;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -25,7 +26,6 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import icte.cph.aau.washingmachine.MainActivity;
 import icte.cph.aau.washingmachine.R;
 import icte.cph.aau.washingmachine.utils.Constants;
 import icte.cph.aau.washingmachine.utils.HideKeyboard;
@@ -43,7 +43,13 @@ public class WashingMachineIDFragment extends Fragment {
     private EditText setup_wm_id_edittext;
     private Button setup_wm_next_button;
 
+    IDPassListener idPassListener;
+
     public WashingMachineIDFragment() {
+    }
+
+    public interface IDPassListener {
+        void onPinReceived(String pin);
     }
 
 
@@ -65,9 +71,11 @@ public class WashingMachineIDFragment extends Fragment {
         setup_wm_progressBar.setVisibility(View.VISIBLE);
         setup_wm_holder.setVisibility(View.GONE);
 
+        //Inserting POST parameters in a Map object.
         Map<String, String> map = new HashMap<>();
         map.put(Constants.TAG_WID, setup_wm_id_edittext.getText().toString());
 
+        //Initiating the Requuest queue with Volley
         RequestQueue requestQueue = VolleySingleTon.getInstance().getRequestQueue();
         VolleyJsonRequest jsObjRequest = new VolleyJsonRequest(
                 Request.Method.POST,
@@ -86,14 +94,13 @@ public class WashingMachineIDFragment extends Fragment {
                             if (success == 1) {
                                 JSONObject resultObj = response.getJSONObject(Constants.TAG_RESULT);
                                 String pin = resultObj.optString(Constants.TAG_PIN);
-                                Toast.makeText(getActivity(), pin, Toast.LENGTH_SHORT).show();
 
-                                ((MainActivity) getActivity()).setup_wm_viewpager.setCurrentItem(1, true);
+                                idPassListener.onPinReceived(pin);
+                                Log.d(TAG, "onResponse: pin code: " + pin);
 
                             } else
                                 Toast.makeText(getActivity(), "Couldn't not find Washing Machine", Toast.LENGTH_SHORT).show();
 
-                            Log.d(TAG, "onResponse: " + response);
                             Log.d(TAG, "onResponse: message: " + message);
 
                         } catch (JSONException e) {
@@ -101,12 +108,14 @@ public class WashingMachineIDFragment extends Fragment {
                         }
 
 
-
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        setup_wm_progressBar.setVisibility(View.GONE);
+                        setup_wm_holder.setVisibility(View.VISIBLE);
+
                         Log.d(TAG, "onErrorResponse: " + error);
 
                     }
@@ -114,19 +123,33 @@ public class WashingMachineIDFragment extends Fragment {
         );
 
         requestQueue.add(jsObjRequest);
-
-
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         setup_wm_next_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendWMID();
+
             }
         });
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            idPassListener = (IDPassListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnHeadlineSelectedListener");
+        }
+
+
     }
 }
