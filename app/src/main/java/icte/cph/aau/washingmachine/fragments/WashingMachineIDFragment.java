@@ -49,7 +49,7 @@ public class WashingMachineIDFragment extends Fragment {
     }
 
     public interface IDPassListener {
-        void onPinReceived(String pin);
+        void onPinReceived(String pin, String WID);
     }
 
 
@@ -72,8 +72,9 @@ public class WashingMachineIDFragment extends Fragment {
         setup_wm_holder.setVisibility(View.GONE);
 
         //Inserting POST parameters in a Map object.
+        final String wid = setup_wm_id_edittext.getText().toString();
         Map<String, String> map = new HashMap<>();
-        map.put(Constants.TAG_WID, setup_wm_id_edittext.getText().toString());
+        map.put(Constants.TAG_WID, wid);
 
         //Initiating the Requuest queue with Volley
         RequestQueue requestQueue = VolleySingleTon.getInstance().getRequestQueue();
@@ -95,8 +96,8 @@ public class WashingMachineIDFragment extends Fragment {
                                 JSONObject resultObj = response.getJSONObject(Constants.TAG_RESULT);
                                 String pin = resultObj.optString(Constants.TAG_PIN);
 
-                                idPassListener.onPinReceived(pin);
-                                Log.d(TAG, "onResponse: pin code: " + pin);
+                                idPassListener.onPinReceived(pin, wid);
+                                Log.d(TAG, "onResponse: pin code: " + pin + " WID: " + wid);
 
                             } else
                                 Toast.makeText(getActivity(), "Couldn't not find Washing Machine", Toast.LENGTH_SHORT).show();

@@ -7,14 +7,22 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#BEE0F7"
     tools:context="icte.cph.aau.washingmachine.MainActivity">
 
+
+    <ProgressBar
+        android:id="@+id/setup_wm_progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/setup_wm_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="center"
         android:orientation="vertical">
 
 
@@ -33,7 +41,7 @@
             android:ems="10"
             android:hint="@string/washing_machine_id"
             android:inputType="number"
-            android:textSize="20sp" />
+            android:textSize="30sp" />
 
         <Button
             android:id="@+id/setup_wm_next_button"
@@ -42,12 +50,5 @@
             android:layout_gravity="center_horizontal"
             android:text="@string/next" />
     </LinearLayout>
-
-    <ProgressBar
-        android:id="@+id/setup_wm_progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone" />
 
 </FrameLayout>

@@ -1,6 +1,7 @@
 package icte.cph.aau.washingmachine.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import icte.cph.aau.washingmachine.R;
+import icte.cph.aau.washingmachine.WashingMachineActivity;
 import icte.cph.aau.washingmachine.utils.Constants;
 import me.philio.pinentry.PinEntryView;
 
@@ -54,10 +56,18 @@ public class WashingMachinePINFragment extends Fragment {
 
                     //Checking if the entered PIN contains 4 digits. Else show appropiate error.
                     if (enteredPin.length() == 4) {
-
                         //Check if entered pin is equal to the PIN from database.
+
                         if (enteredPin.equals(pin)) {
-                            Toast.makeText(getActivity(), "Correct", Toast.LENGTH_SHORT).show();
+                            String WID = getArguments().getString(Constants.BUNDLE_WID);
+                            Log.d(TAG, "onClick: WMPinFrag: " + WID);
+
+                            //Starting WashingMachineActivity and clearing all previous Activities.
+                            Intent intent = new Intent(getActivity(), WashingMachineActivity.class);
+                            intent.putExtra(WID, Constants.INTENT_WID);
+//                            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+
                         } else
                             Toast.makeText(getActivity(), "Incorrect PIN code", Toast.LENGTH_SHORT).show();
                     } else {
