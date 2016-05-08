@@ -5,7 +5,7 @@ public class Constants {
     public static final String BASE_URL = "http://moneymover.dk/wm/";
     public static final String URL_WM_PIN = BASE_URL + "get_wh_pin.php";
     public static final String URL_MY_WM = BASE_URL + "get_my_washing_machine.php";
-    public static final String URL_INSERT_USER_ID = BASE_URL + "insert_user_id.php";
+    public static final String URL_INSERT_USER_ID = BASE_URL + "insert_user.php";
 
     //Tags
     public static final String TAG_UID = "UID";
@@ -34,5 +34,6 @@ public class Constants {
     //SharedPreferences
     public static final String SP_UID = "SP_UID";
     public static final String SP_WID = "SP_WID";
+    public static final String SP_MY_WID = "SP_MY_WID";
 
 }

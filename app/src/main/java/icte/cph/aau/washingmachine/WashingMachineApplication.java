@@ -9,6 +9,9 @@ import com.auth0.lock.Lock;
 import com.auth0.lock.LockBuilder;
 import com.auth0.lock.LockProvider;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+
 /**
  * Created by Harjit on 28/04/16.
  */
@@ -25,6 +28,12 @@ public class WashingMachineApplication extends Application implements LockProvid
                 .loadFromApplication(this)
                 .withIdentityProvider(Strategies.GooglePlus, new GooglePlusIdentityProvider(this))
                 .build();
+
+        RealmConfiguration configuration = new RealmConfiguration
+                .Builder(this)
+                .deleteRealmIfMigrationNeeded()
+                .build();
+        Realm.setDefaultConfiguration(configuration);
 /*
     }
         lock = new Lock.Builder()

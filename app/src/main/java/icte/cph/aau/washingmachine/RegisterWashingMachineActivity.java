@@ -13,8 +13,8 @@ import icte.cph.aau.washingmachine.fragments.WashingMachinePINFragment;
 import icte.cph.aau.washingmachine.utils.Constants;
 import icte.cph.aau.washingmachine.utils.SharedPreferencesHolder;
 
-public class MainActivity extends AppCompatActivity implements WashingMachineIDFragment.IDPassListener {
-    private static final String TAG = MainActivity.class.getSimpleName();
+public class RegisterWashingMachineActivity extends AppCompatActivity implements WashingMachineIDFragment.IDPassListener {
+    private static final String TAG = RegisterWashingMachineActivity.class.getSimpleName();
     private LinearLayout fragment_container;
     public ViewPager setup_wm_viewpager;
     private SetupWMViewPagerAdapter setupWMViewPagerAdapter;
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements WashingMachineIDF
 
     @Override
     public void onPinReceived(String pin, String WID) {
-        SharedPreferencesHolder sp = new SharedPreferencesHolder(MainActivity.this);
+        SharedPreferencesHolder sp = new SharedPreferencesHolder(RegisterWashingMachineActivity.this);
         sp.saveString(Constants.SP_WID, WID);
 
         WashingMachinePINFragment washingMachinePINFragment = new WashingMachinePINFragment();

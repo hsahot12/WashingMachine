@@ -63,8 +63,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
-        <activity android:name=".WashingMachineActivity"></activity>
+        <activity android:name=".RegisterWashingMachineActivity" />
+        <activity android:name=".WashingMachineActivity" />
+        <activity android:name=".InsertClothActivity"></activity>
     </application>
 
 </manifest>

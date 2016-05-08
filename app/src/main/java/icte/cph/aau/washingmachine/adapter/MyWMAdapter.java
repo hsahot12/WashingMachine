@@ -7,18 +7,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import icte.cph.aau.washingmachine.R;
-import icte.cph.aau.washingmachine.utils.Constants;
+import icte.cph.aau.washingmachine.RealmModel.RealmMyWashingMachine;
+import io.realm.RealmResults;
 
 
 public class MyWMAdapter extends RecyclerView.Adapter<MyWMAdapter.MyViewHolder> {
-    private ArrayList<HashMap<String, String>> resultArray = new ArrayList<>();
+    private RealmResults<RealmMyWashingMachine> resultArray;
     private Context context;
 
-    public MyWMAdapter(ArrayList<HashMap<String, String>> resultArray, Context context) {
+    public MyWMAdapter(RealmResults<RealmMyWashingMachine> resultArray, Context context) {
         this.resultArray = resultArray;
         this.context = context;
     }
@@ -34,12 +32,29 @@ public class MyWMAdapter extends RecyclerView.Adapter<MyWMAdapter.MyViewHolder> 
         TextView brandTv = vh.single_item_wm_brand;
         TextView modelNameTv = vh.single_item_wm_model_name;
 
-        HashMap<String, String> map = resultArray.get(position);
-        String modelName = map.get(Constants.TAG_WMB_NAME);
-        String brand = map.get(Constants.TAG_BRAND);
+        RealmMyWashingMachine mReamls = resultArray.get(position);
+
+        String modelName = mReamls.getWashningMachineName();
+        String brand = mReamls.getWashingMachineBrand();
 
         brandTv.setText(brand);
         modelNameTv.setText(modelName);
+    }
+
+    public StringBuilder getWashingMachineData(int position) {
+        StringBuilder builder = new StringBuilder();
+
+        RealmMyWashingMachine realm = resultArray.get(position);
+        String id = realm.getWashningMachineID();
+        String name = realm.getWashningMachineName();
+        String brand = realm.getWashingMachineBrand();
+
+        builder.append(id);
+        builder.append(name);
+        builder.append(brand);
+
+        return builder;
+
     }
 
     @Override

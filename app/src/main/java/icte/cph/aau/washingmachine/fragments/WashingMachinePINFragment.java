@@ -65,7 +65,6 @@ public class WashingMachinePINFragment extends Fragment {
                             //Starting WashingMachineActivity and clearing all previous Activities.
                             Intent intent = new Intent(getActivity(), WashingMachineActivity.class);
                             intent.putExtra(WID, Constants.INTENT_WID);
-//                            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
 
                         } else

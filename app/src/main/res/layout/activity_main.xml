@@ -17,6 +17,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
+        android:visibility="gone"
         android:text="Register Washing Machine" />
 
     <TextView
@@ -30,16 +31,17 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_below="@+id/textView2"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         android:src="@drawable/wm"
-        android:layout_centerHorizontal="true"
         android:fitsSystemWindows="true"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:id="@+id/user_information"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/imageView"
@@ -50,7 +52,8 @@
         android:id="@+id/login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/sign_in_button"
-        android:layout_centerHorizontal="true"
-        android:text="Login" />
+        android:text="Login"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>

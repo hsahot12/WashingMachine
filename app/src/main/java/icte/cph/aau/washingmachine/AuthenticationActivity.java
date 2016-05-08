@@ -81,6 +81,8 @@ public class AuthenticationActivity extends AppCompatActivity {
 
             SharedPreferencesHolder sp = new SharedPreferencesHolder(AuthenticationActivity.this);
             sp.saveString(Constants.SP_UID, userID);
+
+            startActivity(new Intent(AuthenticationActivity.this,   WashingMachineActivity.class));
         }
     };
 
@@ -110,8 +112,10 @@ public class AuthenticationActivity extends AppCompatActivity {
                             String message = response.optString(Constants.TAG_MESSAGE);
 
                             if (success == 1) {
-                                //startActivity(new Intent(AuthenticationActivity.this, MainActivity.class));
+                                startActivity(new Intent(AuthenticationActivity.this, RegisterWashingMachineActivity.class));
                                 Toast.makeText(AuthenticationActivity.this, "User successfully added", Toast.LENGTH_SHORT).show();
+                            } else if (success == 2) {
+                                Log.d(TAG, "insertUser: " + message);
                             } else
                                 Toast.makeText(getApplicationContext(), "Error, could not login", Toast.LENGTH_SHORT).show();
 
@@ -155,7 +159,7 @@ public class AuthenticationActivity extends AppCompatActivity {
         registerWashingMachineButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(AuthenticationActivity.this, MainActivity.class));
+                startActivity(new Intent(AuthenticationActivity.this, RegisterWashingMachineActivity.class));
 
             }
         });
