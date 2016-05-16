@@ -41,6 +41,10 @@ public class MyWMAdapter extends RecyclerView.Adapter<MyWMAdapter.MyViewHolder> 
         modelNameTv.setText(modelName);
     }
 
+    public RealmMyWashingMachine getWashingMachine(int position) {
+        return resultArray.get(position);
+    }
+
     public StringBuilder getWashingMachineData(int position) {
         StringBuilder builder = new StringBuilder();
 

@@ -77,9 +77,16 @@ public class WashingMachineActivity extends AppCompatActivity {
         ItemClickSupport.addTo(my_washing_machine_recyclerview).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
             public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                StringBuilder s = adapter.getWashingMachineData(position);
-                Toast.makeText(WashingMachineActivity.this, s, Toast.LENGTH_SHORT).show();
+                RealmMyWashingMachine wms = adapter.getWashingMachine(position);
+                String id = wms.getWashningMachineID();
+                String name = wms.getWashningMachineName();
+                String brand = wms.getWashingMachineBrand();
 
+                Intent intent = new Intent(WashingMachineActivity.this, InsertClothActivity.class);
+                intent.putExtra(Constants.INTENT_WMS_ID, id);
+                intent.putExtra(Constants.INTENT_WMS_NAME, name);
+                intent.putExtra(Constants.INTENT_WMS_BRAND, brand);
+                startActivity(intent);
             }
         });
 

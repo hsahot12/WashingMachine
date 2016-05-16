@@ -65,7 +65,7 @@
         </activity>
         <activity android:name=".RegisterWashingMachineActivity" />
         <activity android:name=".WashingMachineActivity" />
-        <activity android:name=".InsertClothActivity"></activity>
+        <activity android:name=".InsertClothActivity"/>
     </application>
 
 </manifest>

@@ -10,6 +10,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="load_clothes">Load clothes</string>
+    <string name="find_washing_programme">Find programme</string>
 
     <item name="item_click_support" type="id" />
 
