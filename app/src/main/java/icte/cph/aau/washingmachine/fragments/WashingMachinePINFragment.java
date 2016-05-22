@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import icte.cph.aau.washingmachine.R;
@@ -22,12 +21,7 @@ import me.philio.pinentry.PinEntryView;
 
 public class WashingMachinePINFragment extends Fragment {
     private static final String TAG = WashingMachineIDFragment.class.getSimpleName();
-    private Button setup_wm_pin_button;
-    private TextView setup_wm_pin_washing_machine_name;
     private PinEntryView setup_wm_pin_pin_entry;
-
-    private String pinFromWID;
-
 
     public WashingMachinePINFragment() {
     }
@@ -43,8 +37,7 @@ public class WashingMachinePINFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_washing_machine_pin, container, false);
         setup_wm_pin_pin_entry = (PinEntryView) view.findViewById(R.id.setup_wm_pin_pin_entry);
-        setup_wm_pin_washing_machine_name = (TextView) view.findViewById(R.id.setup_wm_pin_washing_machine_name);
-        setup_wm_pin_button = (Button) view.findViewById(R.id.setup_wm_pin_button);
+        Button setup_wm_pin_button = (Button) view.findViewById(R.id.setup_wm_pin_button);
         setup_wm_pin_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,22 +52,21 @@ public class WashingMachinePINFragment extends Fragment {
                         //Check if entered pin is equal to the PIN from database.
 
                         if (enteredPin.equals(pin)) {
+                            //Get the WID associated with the PIN
                             String WID = getArguments().getString(Constants.BUNDLE_WID);
-                            Log.d(TAG, "onClick: WMPinFrag: " + WID);
 
-                            //Starting WashingMachineActivity and clearing all previous Activities.
+                            //Launching WashingMachineActivity.
                             Intent intent = new Intent(getActivity(), WashingMachineActivity.class);
                             intent.putExtra(WID, Constants.INTENT_WID);
                             startActivity(intent);
 
                         } else
                             Toast.makeText(getActivity(), "Incorrect PIN code", Toast.LENGTH_SHORT).show();
-                    } else {
+                    } else
                         Toast.makeText(getActivity(), "PIN code must contain 4 digits", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
+                } else
                     Toast.makeText(getActivity(), "Please enter the 4 digit long PIN code", Toast.LENGTH_SHORT).show();
-                }
+
 
             }
         });

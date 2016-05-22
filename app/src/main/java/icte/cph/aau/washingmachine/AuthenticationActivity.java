@@ -10,8 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -22,7 +20,6 @@ import com.auth0.core.Token;
 import com.auth0.core.UserProfile;
 import com.auth0.lock.Lock;
 import com.auth0.lock.LockActivity;
-import com.bumptech.glide.Glide;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,10 +33,6 @@ import icte.cph.aau.washingmachine.utils.VolleyJsonRequest;
 import icte.cph.aau.washingmachine.utils.VolleySingleTon;
 
 public class AuthenticationActivity extends AppCompatActivity {
-    private TextView user_information;
-    private ImageView imageView;
-    private Button registerWashingMachineButton;
-    private Button login_button;
 
     private static final String TAG = AuthenticationActivity.class.getSimpleName();
     private LocalBroadcastManager broadcastManager;
@@ -48,40 +41,44 @@ public class AuthenticationActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
 
+            //Retrieve user information from the ID provider via Auth0
             UserProfile profile = intent.getParcelableExtra(Lock.AUTHENTICATION_ACTION_PROFILE_PARAMETER);
             String userID = profile.getId();
             String email = profile.getEmail();
             String name = profile.getName();
             String profilePic = profile.getPictureURL();
 
+            //Get a token object, which returns an Access-token, ID-token etc.
+            Token token = intent.getParcelableExtra(Lock.AUTHENTICATION_ACTION_TOKEN_PARAMETER);
+            String idToken = token.getIdToken();
+            String accessToken = token.getAccessToken();
 
+            //Concatenate all user information into one String
             String userInfo =
                     "UID: " + userID + "\n"
                             + "Email: " + email + "\n"
                             + "Name: " + name + "\n"
                             + "Picture: " + profilePic + "\n";
 
-            Log.d(TAG, "onReceive: profile: " + user_information);
-            user_information.setText(userInfo);
-            Glide.with(AuthenticationActivity.this)
-                    .load(profilePic)
-                    .into(imageView);
-
-            Token token = intent.getParcelableExtra(Lock.AUTHENTICATION_ACTION_TOKEN_PARAMETER);
+            Log.d(TAG, "onReceive: profile: " + userInfo);
             Log.d(TAG, "onReceive: Token: "
                     + "Access token: "
-                    + token.getAccessToken() + "\n"
-                    + "ID token: " + token.getIdToken());
+                    + accessToken + "\n"
+                    + "ID token: " + idToken);
 
+            //Divide the user's name into their first name and last name.
             int i = name.indexOf(' ');
             String fname = name.substring(0, i);
             String lname = name.substring(i);
 
+            //Insert retrieved user information into WM's database
             insertUser(userID, fname, lname, email);
 
+            //Save the UID in cache locally on the phone.
             SharedPreferencesHolder sp = new SharedPreferencesHolder(AuthenticationActivity.this);
             sp.saveString(Constants.SP_UID, userID);
 
+            //Start next Activity
             startActivity(new Intent(AuthenticationActivity.this,   WashingMachineActivity.class));
         }
     };
@@ -143,10 +140,7 @@ public class AuthenticationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        user_information = (TextView) findViewById(R.id.user_information);
-        imageView = (ImageView) findViewById(R.id.imageView);
-
-        login_button = (Button) findViewById(R.id.login_button);
+        Button login_button = (Button) findViewById(R.id.login_button);
         login_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -155,14 +149,6 @@ public class AuthenticationActivity extends AppCompatActivity {
         });
 
 
-        registerWashingMachineButton = (Button) findViewById(R.id.sign_in_button);
-        registerWashingMachineButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(AuthenticationActivity.this, RegisterWashingMachineActivity.class));
-
-            }
-        });
         broadcastManager = LocalBroadcastManager.getInstance(this);
         broadcastManager.registerReceiver(authenticationReceiver, new IntentFilter(Lock.AUTHENTICATION_ACTION));
     }

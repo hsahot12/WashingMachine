@@ -16,13 +16,11 @@ import icte.cph.aau.washingmachine.R;
 import icte.cph.aau.washingmachine.utils.Constants;
 
 public class InsertClothesAdapter extends RecyclerView.Adapter<InsertClothesAdapter.MyViewHolder> {
-    private static final String TAG = InsertClothesAdapter.class.getSimpleName();
     private Context context;
     public ArrayList<HashMap<String, String>> resultArray = new ArrayList<>();
 
-    ArrayList<String> clothesList = new ArrayList<>();
-    ArrayList<String> clothesShadeList = new ArrayList<>();
-    ArrayList<String> removeClothesList = new ArrayList<>();
+    private ArrayList<String> clothesShadeList = new ArrayList<>();
+    private ArrayList<String> removeClothesList = new ArrayList<>();
 
     public InsertClothesAdapter(Context context, ArrayList<HashMap<String, String>> resultArray) {
         this.context = context;
@@ -63,6 +61,7 @@ public class InsertClothesAdapter extends RecyclerView.Adapter<InsertClothesAdap
 
     public ArrayList<String> getShadeClothes() {
 
+        //Iterating over all clothes
         for (int i = 0; i < resultArray.size(); i++) {
 
             //Get the shade for each piece of clothing
@@ -70,22 +69,33 @@ public class InsertClothesAdapter extends RecyclerView.Adapter<InsertClothesAdap
             String shade = map.get(Constants.TAG_SHADE);
             String brand = map.get(Constants.TAG_BRAND);
 
+            //Inserting the shade of each piece of clothing
             clothesShadeList.add(shade);
-            clothesList.add(brand);
 
-
+            //Checks if there are any clothes available
             if (!clothesShadeList.isEmpty() && clothesShadeList.size() > 0) {
-                if (clothesShadeList.contains(Constants.SHADE_WHITE) && !shade.equals(Constants.SHADE_WHITE)) {
+
+                //Checks if there are any non-white shaded clothes with white-shaded clothes
+                if (clothesShadeList.contains(Constants.SHADE_WHITE)
+                        && !shade.equals(Constants.SHADE_WHITE)) {
+
+                    //If any add to ArrayList
                     removeClothesList.add(brand);
 
-                } else if (clothesShadeList.contains(Constants.SHADE_LIGHT) && shade.equals(Constants.SHADE_DARK)) {
+                }
+                //Checks if there are any light-shaded clothes with dark-shaded clothes
+                else if (clothesShadeList
+                        .contains(Constants.SHADE_LIGHT) &&
+                        shade.equals(Constants.SHADE_DARK)) {
+
+                    //If any add to ArrayList
                     removeClothesList.add(brand);
 
                 }
             }
         }
 
-
+        //Return the ArrayList
         return removeClothesList;
     }
 

@@ -45,22 +45,6 @@ public class MyWMAdapter extends RecyclerView.Adapter<MyWMAdapter.MyViewHolder> 
         return resultArray.get(position);
     }
 
-    public StringBuilder getWashingMachineData(int position) {
-        StringBuilder builder = new StringBuilder();
-
-        RealmMyWashingMachine realm = resultArray.get(position);
-        String id = realm.getWashningMachineID();
-        String name = realm.getWashningMachineName();
-        String brand = realm.getWashingMachineBrand();
-
-        builder.append(id);
-        builder.append(name);
-        builder.append(brand);
-
-        return builder;
-
-    }
-
     @Override
     public int getItemCount() {
         return resultArray.size();

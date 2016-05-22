@@ -29,6 +29,7 @@ import java.util.Map;
 import icte.cph.aau.washingmachine.R;
 import icte.cph.aau.washingmachine.utils.Constants;
 import icte.cph.aau.washingmachine.utils.HideKeyboard;
+import icte.cph.aau.washingmachine.utils.IDPassListener;
 import icte.cph.aau.washingmachine.utils.VolleyJsonRequest;
 import icte.cph.aau.washingmachine.utils.VolleySingleTon;
 
@@ -43,14 +44,11 @@ public class WashingMachineIDFragment extends Fragment {
     private EditText setup_wm_id_edittext;
     private Button setup_wm_next_button;
 
-    IDPassListener idPassListener;
+    private IDPassListener idPassListener;
 
     public WashingMachineIDFragment() {
     }
 
-    public interface IDPassListener {
-        void onPinReceived(String pin, String WID);
-    }
 
 
     @Override
@@ -100,7 +98,7 @@ public class WashingMachineIDFragment extends Fragment {
                                 Log.d(TAG, "onResponse: pin code: " + pin + " WID: " + wid);
 
                             } else
-                                Toast.makeText(getActivity(), "Couldn't not find Washing Machine", Toast.LENGTH_SHORT).show();
+                                getWrongWMError();
 
                             Log.d(TAG, "onResponse: message: " + message);
 
@@ -117,13 +115,20 @@ public class WashingMachineIDFragment extends Fragment {
                         setup_wm_progressBar.setVisibility(View.GONE);
                         setup_wm_holder.setVisibility(View.VISIBLE);
 
-                        Log.d(TAG, "onErrorResponse: " + error);
+                        getErrorWM(error.getMessage());
 
                     }
                 }
         );
 
         requestQueue.add(jsObjRequest);
+    }
+
+    private void getWrongWMError() {
+        Toast.makeText(getActivity(), "Couldn't not find Washing Machine", Toast.LENGTH_SHORT).show();
+    }
+    private void getErrorWM(String errorMessage) {
+        Toast.makeText(getActivity(), "Error: " + errorMessage, Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -32,14 +32,11 @@ import icte.cph.aau.washingmachine.utils.Constants;
 import icte.cph.aau.washingmachine.utils.VolleyJsonRequest;
 import icte.cph.aau.washingmachine.utils.VolleySingleTon;
 
-public class InsertClothActivity extends AppCompatActivity {
-    private static final String TAG = InsertClothActivity.class.getSimpleName();
+public class InsertClothesActivity extends AppCompatActivity {
+    private static final String TAG = InsertClothesActivity.class.getSimpleName();
     private RecyclerView insert_clothes_recyclerview;
     private ListView insert_clothes_listview;
-    private Button insert_clothes_button, insert_clothes_washing_program_button;
     private ProgressBar insert_clothes_progressBar;
-
-    private TextView insert_clothes_clothes_brand, insert_clothes_clothes_name;
 
     private ArrayList<HashMap<String, String>> resultArrayList;
 
@@ -51,8 +48,8 @@ public class InsertClothActivity extends AppCompatActivity {
         setContentView(R.layout.activity_insert_cloth);
 
         insert_clothes_progressBar = (ProgressBar) findViewById(R.id.insert_clothes_progressBar);
-        insert_clothes_button = (Button) findViewById(R.id.insert_clothes_button);
-        insert_clothes_washing_program_button = (Button) findViewById(R.id.insert_clothes_washing_program_button);
+        Button insert_clothes_button = (Button) findViewById(R.id.insert_clothes_button);
+        Button insert_clothes_washing_program_button = (Button) findViewById(R.id.insert_clothes_washing_program_button);
 
         insert_clothes_listview = (ListView) findViewById(R.id.insert_clothes_listview);
 
@@ -65,8 +62,8 @@ public class InsertClothActivity extends AppCompatActivity {
         final String wmsName = intent.getStringExtra(Constants.INTENT_WMS_NAME);
         final String wmsBrand = intent.getStringExtra(Constants.INTENT_WMS_BRAND);
 
-        insert_clothes_clothes_name = (TextView) findViewById(R.id.insert_clothes_clothes_name);
-        insert_clothes_clothes_brand = (TextView) findViewById(R.id.insert_clothes_clothes_brand);
+        TextView insert_clothes_clothes_name = (TextView) findViewById(R.id.insert_clothes_clothes_name);
+        TextView insert_clothes_clothes_brand = (TextView) findViewById(R.id.insert_clothes_clothes_brand);
 
         insert_clothes_clothes_name.setText(wmsName);
         insert_clothes_clothes_brand.setText(wmsBrand);
@@ -113,10 +110,13 @@ public class InsertClothActivity extends AppCompatActivity {
                         String message = response.optString(Constants.TAG_MESSAGE);
                         Log.d(TAG, "loadClothes: " + message);
 
+                        //Everything is OK
                         if (success == 1) {
                             try {
+                                //Get an array of all clothes
                                 JSONArray resultArray = response.getJSONArray(Constants.TAG_CLOTHES);
 
+                                //Iterate over each piece of clothes, and retrieve their information
                                 for (int i = 0; i < resultArray.length(); i++) {
                                     String color = resultArray.getJSONObject(i).optString(Constants.TAG_COLOR);
                                     String shade = resultArray.getJSONObject(i).optString(Constants.TAG_SHADE);
@@ -124,6 +124,7 @@ public class InsertClothActivity extends AppCompatActivity {
                                     String temperature = resultArray.getJSONObject(i).optString(Constants.TAG_TEMPERATURE);
                                     String brand = resultArray.getJSONObject(i).optString(Constants.TAG_BRAND);
 
+                                    //Insert all the retrieved information into a HashMap
                                     HashMap<String, String> map = new HashMap<>();
                                     map.put(Constants.TAG_COLOR, color);
                                     map.put(Constants.TAG_SHADE, shade);
@@ -131,17 +132,17 @@ public class InsertClothActivity extends AppCompatActivity {
                                     map.put(Constants.TAG_TEMPERATURE, temperature);
                                     map.put(Constants.TAG_BRAND, brand);
 
+                                    //Add the HashMap object into an ArrayList
                                     resultArrayList.add(map);
                                 }
 
-
                             } catch (JSONException e) {
+                                //Log an error if the JSON format is invalid
                                 e.printStackTrace();
                             }
-
                         }
 
-                        adapter = new InsertClothesAdapter(InsertClothActivity.this, resultArrayList);
+                        adapter = new InsertClothesAdapter(InsertClothesActivity.this, resultArrayList);
                         insert_clothes_recyclerview.setAdapter(adapter);
                         insert_clothes_recyclerview.setVisibility(View.VISIBLE);
                         insert_clothes_progressBar.setVisibility(View.GONE);
@@ -165,23 +166,22 @@ public class InsertClothActivity extends AppCompatActivity {
     }
 
     private void checkColor() {
+        //Checks if the adapter is set.
         if (adapter != null) {
+
+            //Insert all the clothes which has mismatch in their shades into an ArrayList
             ArrayList<String> errorList = adapter.getShadeClothes();
 
-            ListAdapter adapter = new ArrayAdapter<>(InsertClothActivity.this, android.R.layout.simple_list_item_1, errorList);
+            //Insert Arraylist into standard ListAdapter
+            ListAdapter adapter = new ArrayAdapter<>(
+                    InsertClothesActivity.this,
+                    android.R.layout.simple_list_item_1,
+                    errorList);
+
+            //Insert Adapter into ListView
             insert_clothes_listview.setAdapter(adapter);
             insert_clothes_listview.setVisibility(View.VISIBLE);
             insert_clothes_recyclerview.setVisibility(View.GONE);
-
-            if (errorList.size() > 0) {
-                for (int i = 0; i < errorList.size(); i++) {
-                    Log.d(TAG, "checkColor: errorList: " + errorList.get(i));
-                }
-            }
-
-
-        } else
-            Log.d(TAG, "checkColor: adapter null :(");
+        }
     }
-
 }
