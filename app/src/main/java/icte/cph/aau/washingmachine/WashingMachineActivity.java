@@ -22,7 +22,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
@@ -106,16 +105,16 @@ public class WashingMachineActivity extends AppCompatActivity {
         Log.d(TAG, "loadMyWashingMachineData: WID: " + WID);
 
         String UIDEncoded = null;
-        try {
-            UIDEncoded = URLEncoder.encode(UID, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+
+            UIDEncoded = URLEncoder.encode(UID);
+//            UIDEncoded = URLEncoder.encode(UID, "UTF-8");
+
 
         Log.d(TAG, "loadMyWashingMachineData: UIDEncoded: " + UIDEncoded);
         //Defining the POST parameters.
         Map<String, String> map = new HashMap<>();
-        map.put(Constants.TAG_UID, UIDEncoded);
+//        map.put(Constants.TAG_UID, UIDEncoded);
+        map.put(Constants.TAG_UID, "1");
         map.put(Constants.TAG_WID, WID);
 
         //Creating a Volley instance to do async. network operations.

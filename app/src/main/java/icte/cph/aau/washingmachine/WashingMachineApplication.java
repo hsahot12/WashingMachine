@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.auth0.core.Strategies;
+import com.auth0.facebook.FacebookIdentityProvider;
 import com.auth0.googleplus.GooglePlusIdentityProvider;
 import com.auth0.lock.Lock;
 import com.auth0.lock.LockBuilder;
@@ -27,6 +28,7 @@ public class WashingMachineApplication extends Application implements LockProvid
         lock = new LockBuilder()
                 .loadFromApplication(this)
                 .withIdentityProvider(Strategies.GooglePlus, new GooglePlusIdentityProvider(this))
+                .withIdentityProvider(Strategies.Facebook, new FacebookIdentityProvider(this))
                 .build();
 
         RealmConfiguration configuration = new RealmConfiguration
