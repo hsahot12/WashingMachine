@@ -7,13 +7,13 @@ The application is a Proof of Concept demostrating the following concepts:
 - Receive a simple washing programme from inserted clothes. 
 
 
-#System requirements:
+####System requirements:
 - Android Studio 2.0 or later if project need to be imported.
 - Android 4.1 Jellybean
 - Internet connection
 
 
-#Test
+####Test
 To test the application use these credentials for the washing machine:
 - Washing machine ID: 123456789
 - Washing machine PIN: 1234
