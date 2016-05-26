@@ -1,8 +1,7 @@
 # Smart Washing Programme
 This project contains the source code for the Android application in the semester project.
 
- * [Images](http://moneymover.dk/wm/wm_pic.png)
-
+![](http://moneymover.dk/wm/wm_pic.png)
 
 The application is a Proof of Concept demostrating the following concepts:
 - Authentication via Auh0.
